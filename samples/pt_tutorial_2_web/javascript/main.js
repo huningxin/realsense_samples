@@ -29,7 +29,9 @@ ptModule.createPersonTracker(ptConfig, cameraConfig).then((instance) => {
   startServer();
 
   pt.on('frameprocessed', function(result) {
-    sendRgbFrame(pt.getFrameData());
+    pt.getFrameData().then((frame) => {
+      sendRgbFrame(frame);
+    });
   });
   pt.on('persontracked', function(result) {
     startTracking(result);
