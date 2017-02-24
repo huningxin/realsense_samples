@@ -25,7 +25,7 @@ orModule.createObjectRecognizer().then((objectRecognizer) => {
   or.on('framecaptured', () => {
     if (or.state !== 'running')
       return;
-    or.getFrameInfo().then((frame) => {
+    or.getFrameData().then((frame) => {
       sendRgbFrame(frame);
     }).catch((e) => {
       console.log('error: ' + e);
