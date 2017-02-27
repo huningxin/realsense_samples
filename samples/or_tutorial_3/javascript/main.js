@@ -3,7 +3,7 @@
 
 'use strict';
 
-const orModule = require('object-recognition');
+const orModule = require('node-object');
 
 let or;
 let mode = 'localization';

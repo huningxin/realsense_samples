@@ -9,7 +9,7 @@ let express = require('express');
 let app = express();
 let server = require('http').createServer(app);
 let WsServer = require('ws').Server;
-let slamModule = require('slam');
+let slamModule = require('node-slam');
 
 const mapResolution = 0.025;
 

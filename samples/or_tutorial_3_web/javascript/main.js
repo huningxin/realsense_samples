@@ -9,7 +9,7 @@ let express = require('express');
 let app = express();
 let server = require('http').createServer(app);
 let WsServer = require('ws').Server;
-const orModule = require('object-recognition');
+const orModule = require('node-object');
 
 let or;
 let mode = 'localization';

@@ -9,7 +9,7 @@ let express = require('express');
 let app = express();
 let server = require('http').createServer(app);
 let WsServer = require('ws').Server;
-let ptModule = require('person-tracking');
+let ptModule = require('node-person');
 
 let ptConfig = {tracking: {enable: true, trackingMode: 'following'}};
 let cameraConfig = {color: {width: 320, height: 240, frameRate: 30, isEnabled: true},

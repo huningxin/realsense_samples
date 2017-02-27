@@ -3,7 +3,7 @@
 
 'use strict';
 
-let ptModule = require('person-tracking');
+let ptModule = require('node-person');
 
 let ptConfig = {
   tracking: {
