@@ -5,5 +5,7 @@
   "main": "main.js",
   "author": "Ningxin Hu <ningxin.hu@intel.com>",
   "license": "Apache-2.0",
-  "dependencies": {}
+  "dependencies": {
+    "node-slam": "^0.9.1"
+  }
 }

@@ -3,7 +3,7 @@
 
 'use strict';
 
-let ptModule = require('person-tracking');
+let ptModule = require('node-person');
 
 let ptConfig = {tracking: {enable: true, trackingMode: 'following'}};
 let cameraConfig = {color: {width: 320, height: 240, frameRate: 30, isEnabled: true},

@@ -3,7 +3,7 @@
 
 'use strict';
 
-let slamModule = require('slam');
+let slamModule = require('node-slam');
 
 let slam;
 slamModule.createInstance().then((instance) => {
