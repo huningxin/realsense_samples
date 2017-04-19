@@ -151,7 +151,6 @@ transporter.onPTDataUpdate = (timestamp, pt_data) => {
     
         var pt_result_list = pt_data.Object_result;
 	this.prev_pt_result_list = pt_result_list;	// Remember for click on canvas
-
         for (var i = 0; i < pt_result_list.length; i++) {
             var pt_object = pt_result_list[i];
 
@@ -197,6 +196,14 @@ transporter.onPTDataUpdate = (timestamp, pt_data) => {
                 var rectY = pt_object.person_bounding_box.y * scaleFactor;
                 var rectW = pt_object.person_bounding_box.w * scaleFactor;
                 var rectH = pt_object.person_bounding_box.h * scaleFactor;
+
+                if(pt_object.hasOwnProperty('rid'))
+                {
+                  ctx2d.strokeStyle = "rgba(0, 238, 0, 1.0)";      // Color of pointing - green
+                }
+                else {
+                  ctx2d.strokeStyle = "rgba(250, 50, 50, 1.0)";      // Color of stroke rectangle - red
+                }
 
                 ctx2d.strokeRect(rectX, rectY, rectW, rectH); //Draw each person rectangle
 
@@ -359,7 +366,8 @@ function onOverlayCanvasClick(e)
                 {
                     // Send message back through web socket to the C++ code saying to focus on this person
                     console.log("Clicked-on person has ID = " + pt_object.pid);
-                    transporter.sendMessage({ type: "pt_track", command: pt_object.pid });
+                    //transporter.sendMessage({ type: "pt_track", command: pt_object.pid });
+                    transporter.sendMessage({ type: "pt_register", command: pt_object.pid });
                     return;	// Found clicked-on person, sent message back to server.  We're done.
                 }
             }

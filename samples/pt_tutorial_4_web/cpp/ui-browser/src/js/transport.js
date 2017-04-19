@@ -104,7 +104,7 @@ SpTransport.prototype.handleMessageString = function(message) {
             let type = (msg.hasOwnProperty('type')) ? msg.type : undefined;
             switch (type) {
                 case "person_tracking":
-                    //console.log("Received PT data: ", msg);
+                    // console.log("Received PT data: ", msg);
                     this.onPTDataUpdate(new Date(), msg);
                     break;
                 default:
