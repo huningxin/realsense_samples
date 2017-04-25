@@ -1,5 +1,5 @@
 {
-  "name": "pt_tutorial_4+_web",
+  "name": "pt_tutorial_4_plus_web",
   "version": "0.0.1",
   "description": "The JavaScript version of pt_tutorial_4+_web",
   "main": "main.js",
@@ -8,7 +8,7 @@
   "dependencies": {
     "express": "^4.14.0",
     "jpeg-turbo": "^0.4.0",
-    "node-person": "0.10.0",
+    "node-person": "^0.10.1",
     "ws": "^1.1.1"
   }
 }

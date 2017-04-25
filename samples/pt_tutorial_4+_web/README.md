@@ -45,7 +45,17 @@ Screen shot
 
 # Steps to execute:
 
-Samples are ready to run when installed using the debian package. Type the name of the sample in the terminal and run it.
+## Bootstrap
+
+```
+$ npm install
+```
+
+## Run
+
+```
+$ node main.js
+```
 
 Open the web page to the url link provided on the terminal which is "TargetIPaddr:8000/view.html"; 
 e.g. 10.30.90.130:8000/view.html

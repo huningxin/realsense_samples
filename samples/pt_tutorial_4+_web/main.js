@@ -332,7 +332,7 @@ function loadDatabase() {
 
 function startServer() {
   // Share the ui-browser code from cpp sample
-  app.use(express.static('../cpp/ui-browser/src'));
+  app.use(express.static('./ui-browser/src'));
   const ip = getEthernetIp();
   const port = 8000;
   server.listen(port, ip);
