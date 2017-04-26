@@ -370,7 +370,7 @@ function startServer() {
       if (msgobj.type === 'pt_track' || msgobj.type === 'pt_register') {
         let id = parseInt(msgobj.command);
         if (isNaN(id)) {
-          console.log('pt_tutorial_4_web main:  Invalid person ID ', msgobj.command);
+          console.log('pt_tutorial_4.1_web main:  Invalid person ID ', msgobj.command);
           return;
         } else {
           let work;
