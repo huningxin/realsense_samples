@@ -25,6 +25,7 @@ let ptConfig = {
 let cameraConfig = {color: {width: 320, height: 240, frameRate: 30, isEnabled: true},
                     depth: {width: 320, height: 240, frameRate: 30, isEnabled: true}};
 let pt;
+let prev_result;
 ptModule.createPersonTracker(ptConfig, cameraConfig).then((instance) => {
   pt = instance;
   startServer();
@@ -36,6 +37,7 @@ ptModule.createPersonTracker(ptConfig, cameraConfig).then((instance) => {
     });
   });
   pt.on('persontracked', function(result) {
+    prev_result = result;
     sendTrackingAndRecognitionData(result);
   });
 
@@ -154,7 +156,7 @@ function padding(string, width) {
   return string + new Array(length + 1).join(' ');
 }
 
-function sendTrackingAndRecognitionData(result) {
+function sendTrackingAndRecognitionData(result, id) {
   if (!connected) {
     return;
   }
@@ -166,26 +168,38 @@ function sendTrackingAndRecognitionData(result) {
     let trackInfo = person.trackInfo;
     if (trackInfo) {
       let aPromise = new Promise((resolve, reject) => {
-        pt.personRecognition.registerPerson(trackInfo.id).then((regData) => {
-          console.log('Registered person: ', regData.recognitionID);
-          element = constructAPersonData(person, regData.recognitionID);
-          resultArray.push(element);
-          resolve();
-        }).catch((e) => {
-          if (e.status === 'already-registered') {
-            element = constructAPersonData(person, e.recognitionID);
-          } else {
-            element = constructAPersonData(person, undefined);
-          }
-          resultArray.push(element);
-          resolve();
-        });
+        if (trackInfo.id === id) {
+          pt.personRecognition.registerPerson(trackInfo.id).then((regData) => {
+            console.log('Registered person: ', regData.recognitionID);
+            element = constructAPersonData(person, regData.recognitionID);
+            resultArray.push(element);
+            resolve();
+          }).catch((e) => {
+            if (e.status === 'already-registered') {
+              element = constructAPersonData(person, e.recognitionID);
+            } else {
+              element = constructAPersonData(person, undefined);
+            }
+            resultArray.push(element);
+            resolve();
+          });
+        } else {
+          pt.personRecognition.recognizePerson(trackInfo.id).then((personRecognizerData) => {
+            if (personRecognizerData.recognized) {
+              element = constructAPersonData(person, personRecognizerData.recognitionID);
+            } else {
+              element = constructAPersonData(person, undefined);
+            }
+            resultArray.push(element);
+            resolve();
+          });
+        }
       });
       promises.push(aPromise);
     }
   });
 
-  Promise.all(promises).then(() => {
+  return Promise.all(promises).then(() => {
     let resultToDisplay = {
       Object_result: resultArray,
       type: 'person_tracking',
@@ -353,15 +367,16 @@ function startServer() {
         // console.log(e);
         return;
       }
-      if (msgobj.type === 'pt_track') {
+      if (msgobj.type === 'pt_track' || msgobj.type === 'pt_register') {
         let id = parseInt(msgobj.command);
         if (isNaN(id)) {
           console.log('pt_tutorial_4_web main:  Invalid person ID ', msgobj.command);
           return;
         } else {
           let work;
-          if (id > -1) {
-            work =pt.personTracking.startTrackingPerson(id);
+          if (id > -1 && msgobj.type === 'pt_register') {
+            work = sendTrackingAndRecognitionData(prev_result, id);
+            pt.personTracking.resetTracking();
           } else {
             work = pt.personTracking.resetTracking();
           }
